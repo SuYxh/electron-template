@@ -84,7 +84,7 @@ export class WebSocketManager {
           resolve()
         })
 
-        ws.on('message', (data) => {
+        ws.on('message', (data: WebSocket.RawData) => {
           try {
             const parsed = JSON.parse(data.toString())
             callbacks.onMessage(id, parsed)
@@ -104,7 +104,7 @@ export class WebSocketManager {
           }
         })
 
-        ws.on('error', (error) => {
+        ws.on('error', (error: Error) => {
           connection.state.status = 'error'
           connection.state.lastError = error.message
           callbacks.onStatusChange(id, 'error')
