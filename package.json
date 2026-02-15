@@ -1,6 +1,6 @@
 {
   "name": "electron-template",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Electron template with React, Vite, TypeScript",
   "main": "dist-electron/main/index.js",
   "scripts": {
