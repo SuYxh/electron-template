@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.electron.template",
+  "productName": "Electron Template",
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": [
+    "dist-electron",
+    "dist"
+  ],
+  "extraResources": [
+    {
+      "from": "node_modules/ffmpeg-static/ffmpeg",
+      "to": "ffmpeg"
+    },
+    {
+      "from": "node_modules/@ffprobe-installer/ffprobe/ffprobe",
+      "to": "ffprobe"
+    }
+  ],
+  "mac": {
+    "target": [
+      "dmg",
+      "zip"
+    ],
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "category": "public.app-category.utilities"
+  },
+  "win": {
+    "target": [
+      "nsis",
+      "portable"
+    ],
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb"
+    ],
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "category": "Utility"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "your-username",
+    "repo": "electron-template"
+  }
+}
