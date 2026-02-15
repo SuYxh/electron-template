@@ -9,10 +9,15 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: macos-latest
             platform: mac
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: win
 
     runs-on: ${{ matrix.os }}
 
@@ -42,14 +47,46 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Upload artifacts
+      - name: Build Electron (Linux)
+        if: matrix.platform == 'linux'
+        run: pnpm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Build Electron (Windows)
+        if: matrix.platform == 'win'
+        run: pnpm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Upload artifacts (macOS)
+        if: matrix.platform == 'mac'
         uses: actions/upload-artifact@v4
         with:
-          name: release-${{ matrix.platform }}
+          name: release-mac
           path: |
             release/**/*.dmg
             release/**/*.zip
-            release/**/*.yml
+            release/**/latest-mac.yml
+
+      - name: Upload artifacts (Linux)
+        if: matrix.platform == 'linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-linux
+          path: |
+            release/**/*.AppImage
+            release/**/*.deb
+            release/**/latest-linux.yml
+
+      - name: Upload artifacts (Windows)
+        if: matrix.platform == 'win'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-win
+          path: |
+            release/**/*.exe
+            release/**/latest.yml
 
   release:
     needs: build
@@ -73,6 +110,9 @@ jobs:
           files: |
             artifacts/**/*.dmg
             artifacts/**/*.zip
+            artifacts/**/*.AppImage
+            artifacts/**/*.deb
+            artifacts/**/*.exe
             artifacts/**/*.yml
           draft: false
           prerelease: false
