@@ -48,7 +48,7 @@
   },
   "publish": {
     "provider": "github",
-    "owner": "your-username",
+    "owner": "SuYxh",
     "repo": "electron-template"
   }
 }
