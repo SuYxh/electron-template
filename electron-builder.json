@@ -9,38 +9,40 @@
     "dist-electron",
     "dist"
   ],
-  "extraResources": [
-    {
-      "from": "node_modules/ffmpeg-static/ffmpeg",
-      "to": "ffmpeg"
-    },
-    {
-      "from": "node_modules/@ffprobe-installer/ffprobe/ffprobe",
-      "to": "ffprobe"
-    }
-  ],
   "mac": {
     "target": [
       "dmg",
       "zip"
     ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
-    "category": "public.app-category.utilities"
+    "category": "public.app-category.utilities",
+    "extraResources": [
+      {
+        "from": "node_modules/ffmpeg-static/ffmpeg",
+        "to": "ffmpeg"
+      },
+      {
+        "from": "node_modules/@ffprobe-installer/ffprobe/ffprobe",
+        "to": "ffprobe"
+      }
+    ]
   },
   "win": {
     "target": [
       "nsis",
       "portable"
     ],
-    "artifactName": "${productName}-${version}-${arch}.${ext}"
-  },
-  "linux": {
-    "target": [
-      "AppImage",
-      "deb"
-    ],
     "artifactName": "${productName}-${version}-${arch}.${ext}",
-    "category": "Utility"
+    "extraResources": [
+      {
+        "from": "node_modules/ffmpeg-static/ffmpeg.exe",
+        "to": "ffmpeg.exe"
+      },
+      {
+        "from": "node_modules/@ffprobe-installer/ffprobe/ffprobe.exe",
+        "to": "ffprobe.exe"
+      }
+    ]
   },
   "nsis": {
     "oneClick": false,

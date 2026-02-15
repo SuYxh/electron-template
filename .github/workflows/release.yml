@@ -14,8 +14,6 @@ jobs:
         include:
           - os: macos-latest
             platform: mac
-          - os: ubuntu-latest
-            platform: linux
           - os: windows-latest
             platform: win
 
@@ -47,12 +45,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Build Electron (Linux)
-        if: matrix.platform == 'linux'
-        run: pnpm run build:linux
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
       - name: Build Electron (Windows)
         if: matrix.platform == 'win'
         run: pnpm run build:win
@@ -68,16 +60,6 @@ jobs:
             release/**/*.dmg
             release/**/*.zip
             release/**/latest-mac.yml
-
-      - name: Upload artifacts (Linux)
-        if: matrix.platform == 'linux'
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-linux
-          path: |
-            release/**/*.AppImage
-            release/**/*.deb
-            release/**/latest-linux.yml
 
       - name: Upload artifacts (Windows)
         if: matrix.platform == 'win'
@@ -110,8 +92,6 @@ jobs:
           files: |
             artifacts/**/*.dmg
             artifacts/**/*.zip
-            artifacts/**/*.AppImage
-            artifacts/**/*.deb
             artifacts/**/*.exe
             artifacts/**/*.yml
           draft: false
